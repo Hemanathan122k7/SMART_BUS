@@ -1,0 +1,409 @@
+/**
+ * Responsive CSS - Mobile and Tablet Optimization
+ */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 12px 20px;
+    }
+
+    .navbar-brand h2 {
+        font-size: 1.3rem;
+    }
+
+    .sidebar {
+        width: 220px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+    /* Typography */
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.2rem; }
+
+    /* Navbar */
+    .navbar {
+        padding: 10px 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .navbar-brand h2 {
+        font-size: 1.1rem;
+    }
+
+    .navbar-menu {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .user-info {
+        font-size: 0.85rem;
+    }
+
+    /* Dashboard Layout */
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+        border-right: none;
+        border-bottom: 2px solid var(--bg-light);
+    }
+
+    .sidebar-menu {
+        display: flex;
+        overflow-x: auto;
+        padding: 0;
+    }
+
+    .sidebar-menu li {
+        flex-shrink: 0;
+        padding: 12px 20px;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+
+    .sidebar-menu li.active {
+        border-left: none;
+        border-bottom-color: var(--primary-color);
+    }
+
+    .sidebar-menu li span {
+        font-size: 1.5rem;
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding: 15px;
+    }
+
+    /* Statistics Grid */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-icon {
+        font-size: 2rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    /* Cards */
+    .card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .card h3 {
+        font-size: 1.1rem;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Forms */
+    .form-horizontal .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .btn {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+    }
+
+    /* Capacity Grid */
+    .capacity-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .capacity-item {
+        padding: 12px;
+    }
+
+    /* Status Indicator */
+    .status-indicator {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    /* Alert Box */
+    .alert-box {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    /* Bus Stop Display */
+    .busstop-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .busstop-header .stop-name {
+        font-size: 1.2rem;
+    }
+
+    .stats-bar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .bus-list {
+        grid-template-columns: 1fr;
+    }
+
+    .bus-card {
+        padding: 15px;
+    }
+
+    /* Login Page */
+    .login-card {
+        padding: 25px;
+    }
+
+    .login-header h1 {
+        font-size: 1.8rem;
+    }
+
+    /* Route Stops */
+    .route-stops {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Fare Display */
+    .fare-display {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    /* Table Actions */
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .action-buttons .btn {
+        width: 100%;
+    }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    /* Typography */
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.3rem; }
+    h3 { font-size: 1.1rem; }
+
+    /* Buttons */
+    .btn {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    /* Cards */
+    .card {
+        padding: 12px;
+    }
+
+    /* Navbar */
+    .navbar-brand h2 {
+        font-size: 1rem;
+    }
+
+    /* Stats */
+    .stat-value {
+        font-size: 1.3rem;
+    }
+
+    .stat-info h4 {
+        font-size: 0.85rem;
+    }
+
+    /* Bus Cards */
+    .bus-id {
+        font-size: 1.2rem;
+    }
+
+    .capacity-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .capacity-value {
+        font-size: 1rem;
+    }
+
+    /* Login */
+    .login-card {
+        padding: 20px;
+    }
+
+    .login-header h1 {
+        font-size: 1.5rem;
+    }
+
+    /* Status Badge */
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+
+    /* Sidebar Menu Text */
+    .sidebar-menu li {
+        font-size: 0.85rem;
+        padding: 10px 15px;
+    }
+}
+
+/* Landscape Mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+    .dashboard-container {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 200px;
+        height: calc(100vh - 60px);
+    }
+
+    .sidebar-menu {
+        flex-direction: column;
+    }
+
+    .sidebar-menu li {
+        border-bottom: none;
+        border-left: 4px solid transparent;
+    }
+
+    .sidebar-menu li.active {
+        border-bottom: none;
+        border-left-color: var(--primary-color);
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .sidebar,
+    .btn,
+    .action-buttons,
+    .card-actions {
+        display: none;
+    }
+
+    .main-content {
+        padding: 0;
+    }
+
+    .card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    table {
+        border: 1px solid #000;
+    }
+
+    thead {
+        background: #f0f0f0 !important;
+        color: black !important;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase tap targets for touch devices */
+    .btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .sidebar-menu li {
+        min-height: 50px;
+    }
+
+    .pagination-controls button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Remove hover effects on touch devices */
+    .card:hover,
+    .stat-card:hover,
+    tbody tr:hover {
+        transform: none;
+    }
+
+    /* Larger form inputs */
+    input,
+    select,
+    textarea {
+        min-height: 44px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Crisp rendering for high DPI screens */
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark Mode Override (if system preference) */
+@media (prefers-color-scheme: dark) {
+    /* Already dark by default, but can add specific overrides here */
+}

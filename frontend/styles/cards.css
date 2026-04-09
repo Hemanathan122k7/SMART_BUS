@@ -1,0 +1,380 @@
+/**
+ * Cards CSS - Card Component Styles
+ */
+
+/* Base Card */
+.card {
+    background-color: #ffffff;
+    border-radius: var(--radius-lg);
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #dee2e6;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.02) 0%, transparent 70%);
+    transition: all 0.5s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-color: #adb5bd;
+}
+
+.card:hover::after {
+    width: 200px;
+    height: 200px;
+}
+
+.card h3 {
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+    position: relative;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.card h3::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #000000, transparent);
+    transition: width 0.4s ease;
+}
+
+.card:hover h3::before {
+    width: 100px;
+}
+
+.card p {
+    color: #6c757d;
+    line-height: 1.6;
+}
+
+/* Card Variants */
+.card-primary {
+    border-left: 4px solid #000000;
+}
+
+.card-success {
+    border-left: 4px solid var(--success-color);
+}
+
+.card-warning {
+    border-left: 4px solid var(--warning-color);
+}
+
+.card-danger {
+    border-left: 4px solid var(--danger-color);
+}
+
+.card-info {
+    border-left: 4px solid var(--info-color);
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.card-header h3 {
+    margin: 0;
+    border: none;
+    padding: 0;
+}
+
+.card-header .card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Card Body */
+.card-body {
+    padding: 15px 0;
+}
+
+/* Card Footer */
+.card-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid var(--bg-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Card Grid Layout */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+/* Compact Card */
+.card-compact {
+    padding: 15px;
+}
+
+.card-compact h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+/* Highlighted Card */
+.card-highlight {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border: 2px solid var(--primary-color);
+}
+
+/* Card with Image */
+.card-image {
+    border-radius: var(--radius-lg);
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+/* Card Stats */
+.card-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0;
+}
+
+.card-stat-item {
+    text-align: center;
+}
+
+.card-stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: block;
+}
+
+.card-stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+
+/* Card Badge */
+.card-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Card List */
+.card-list {
+    list-style: none;
+    padding: 0;
+}
+
+.card-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--bg-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-list li:last-child {
+    border-bottom: none;
+}
+
+.card-list-icon {
+    font-size: 1.2rem;
+    margin-right: 12px;
+}
+
+.card-list-text {
+    flex: 1;
+    color: var(--text-secondary);
+}
+
+.card-list-value {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Interactive Card */
+.card-interactive {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-interactive::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s;
+}
+
+.card-interactive:hover::before {
+    left: 100%;
+}
+
+/* Card Loading State */
+.card-loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.card-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(26, 26, 46, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radius-lg);
+}
+
+/* Card Empty State */
+.card-empty {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+}
+
+.card-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.card-empty-text {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.card-empty-subtext {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+/* Collapsible Card */
+.card-collapsible .card-header {
+    cursor: pointer;
+    user-select: none;
+}
+
+.card-collapsible .card-header::after {
+    content: '▼';
+    font-size: 0.8rem;
+    margin-left: 10px;
+    transition: transform 0.3s;
+}
+
+.card-collapsible.collapsed .card-header::after {
+    transform: rotate(-90deg);
+}
+
+.card-collapsible.collapsed .card-body {
+    display: none;
+}
+
+/* Card with Icon */
+.card-with-icon {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.card-icon-container {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: var(--radius-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
+
+.card-content {
+    flex: 1;
+}
+
+/* Card Notification Badge */
+.card-notification {
+    position: relative;
+}
+
+.card-notification::before {
+    content: attr(data-count);
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--danger-color);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Responsive Cards */
+@media (max-width: 768px) {
+    .card {
+        padding: 15px;
+    }
+
+    .card h3 {
+        font-size: 1.1rem;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+}

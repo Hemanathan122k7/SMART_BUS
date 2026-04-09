@@ -1,0 +1,454 @@
+/**
+ * Tables CSS - Table Component Styles
+ */
+
+/* Base Table */
+.table-responsive {
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+/* Table Header */
+thead {
+    background: #f8f9fa;
+    position: relative;
+    border-bottom: 2px solid #dee2e6;
+}
+
+thead::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #000000, transparent);
+}
+
+thead th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #000000;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Table Body */
+tbody tr {
+    border-bottom: 1px solid #e9ecef;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+tbody tr::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: #000000;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.01);
+}
+
+tbody tr:hover::before {
+    transform: scaleY(1);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody td {
+    padding: 15px;
+    color: #1a1a1a;
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+/* Striped Table */
+.table-striped tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Bordered Table */
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+}
+
+/* Compact Table */
+.table-compact td,
+.table-compact th {
+    padding: 10px;
+    font-size: 0.9rem;
+}
+
+/* Hoverable Table */
+.table-hover tbody tr {
+    cursor: pointer;
+}
+
+/* Table Cell Alignment */
+.table-center td,
+.table-center th {
+    text-align: center;
+}
+
+.table-right td:last-child,
+.table-right th:last-child {
+    text-align: right;
+}
+
+/* Status Column */
+td.status {
+    font-weight: 600;
+}
+
+td.status.active {
+    color: var(--success-color);
+}
+
+td.status.inactive {
+    color: var(--danger-color);
+}
+
+td.status.pending {
+    color: var(--warning-color);
+}
+
+/* Number Columns */
+td.number {
+    font-family: 'Courier New', monospace;
+    font-weight: 500;
+}
+
+/* Action Columns */
+td.actions {
+    white-space: nowrap;
+}
+
+td.actions .btn {
+    margin-right: 5px;
+    padding: 5px 10px;
+    font-size: 0.85rem;
+}
+
+/* Empty Table State */
+tbody tr.empty-row td {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Table Badge */
+.table-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.table-badge.success {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: var(--success-color);
+}
+
+.table-badge.warning {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: var(--warning-color);
+}
+
+.table-badge.danger {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: var(--danger-color);
+}
+
+.table-badge.info {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: var(--info-color);
+}
+
+/* Table Avatar */
+.table-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+/* Table Icon */
+.table-icon {
+    font-size: 1.2rem;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+/* Sortable Table Headers */
+.table-sortable th {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-right: 25px;
+}
+
+.table-sortable th:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.table-sortable th::after {
+    content: '⇅';
+    position: absolute;
+    right: 10px;
+    opacity: 0.5;
+    font-size: 0.8rem;
+}
+
+.table-sortable th.sort-asc::after {
+    content: '↑';
+    opacity: 1;
+}
+
+.table-sortable th.sort-desc::after {
+    content: '↓';
+    opacity: 1;
+}
+
+/* Table Search */
+.table-search {
+    margin-bottom: 15px;
+}
+
+.table-search input {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px 15px;
+    border: 2px solid var(--bg-light);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-medium);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.table-search input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Table Pagination */
+.table-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px 0;
+}
+
+.pagination-info {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination-controls button {
+    padding: 8px 12px;
+    border: none;
+    background-color: var(--bg-medium);
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-controls button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Table Filters */
+.table-filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.table-filter {
+    flex: 1;
+    min-width: 200px;
+}
+
+.table-filter label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.table-filter select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid var(--bg-light);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-medium);
+    color: var(--text-primary);
+}
+
+/* Table Export Button */
+.table-export {
+    margin-bottom: 15px;
+    text-align: right;
+}
+
+.btn-export {
+    padding: 8px 16px;
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.btn-export:hover {
+    background-color: #059669;
+}
+
+/* Table Loading State */
+.table-loading {
+    position: relative;
+}
+
+.table-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(26, 26, 46, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+
+    thead th,
+    tbody td {
+        padding: 10px;
+    }
+
+    /* Stack table on mobile */
+    .table-mobile-stack {
+        display: block;
+    }
+
+    .table-mobile-stack thead {
+        display: none;
+    }
+
+    .table-mobile-stack tbody,
+    .table-mobile-stack tr,
+    .table-mobile-stack td {
+        display: block;
+        width: 100%;
+    }
+
+    .table-mobile-stack tr {
+        margin-bottom: 15px;
+        border: 1px solid var(--bg-light);
+        border-radius: var(--radius-md);
+        padding: 10px;
+    }
+
+    .table-mobile-stack td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+    }
+
+    .table-mobile-stack td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .table-pagination {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .table-filters {
+        flex-direction: column;
+    }
+
+    .table-filter {
+        width: 100%;
+    }
+}
+
+/* Table Header Actions */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.table-title {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+}
+
+.table-actions {
+    display: flex;
+    gap: 10px;
+}

@@ -1,0 +1,95 @@
+[
+  {
+    "routeId": "R001",
+    "routeName": "Central Station - Airport",
+    "stops": [
+      "Central Station",
+      "City Mall",
+      "Tech Park",
+      "University Gate",
+      "Airport Terminal 1",
+      "Airport Terminal 2"
+    ],
+    "buses": ["BUS001", "BUS004"],
+    "distance": "25 km",
+    "estimatedTime": "45 min",
+    "operatingHours": "05:00 - 23:00",
+    "frequency": "Every 15 minutes",
+    "createdAt": "2026-01-10T10:00:00Z"
+  },
+  {
+    "routeId": "R002",
+    "routeName": "University - Beach Road",
+    "stops": [
+      "University Main Gate",
+      "Student Hostel",
+      "Hospital",
+      "Market Square",
+      "Beach Road Junction",
+      "Beach Road End"
+    ],
+    "buses": ["BUS002"],
+    "distance": "18 km",
+    "estimatedTime": "35 min",
+    "operatingHours": "06:00 - 22:00",
+    "frequency": "Every 20 minutes",
+    "createdAt": "2026-01-10T10:30:00Z"
+  },
+  {
+    "routeId": "R003",
+    "routeName": "Tech Park - Market Square",
+    "stops": [
+      "Tech Park Main",
+      "Tech Park Block B",
+      "City Center",
+      "Shopping Complex",
+      "Market Square North",
+      "Market Square Central"
+    ],
+    "buses": ["BUS003"],
+    "distance": "12 km",
+    "estimatedTime": "25 min",
+    "operatingHours": "07:00 - 21:00",
+    "frequency": "Every 10 minutes",
+    "createdAt": "2026-01-10T11:00:00Z"
+  },
+  {
+    "routeId": "R004",
+    "routeName": "Mall - Hospital - University",
+    "stops": [
+      "City Mall",
+      "Residential Area A",
+      "General Hospital",
+      "Medical College",
+      "University Campus",
+      "University Library"
+    ],
+    "buses": ["BUS006"],
+    "distance": "15 km",
+    "estimatedTime": "30 min",
+    "operatingHours": "06:30 - 22:30",
+    "frequency": "Every 12 minutes",
+    "createdAt": "2026-01-10T11:30:00Z"
+  },
+  {
+    "routeId": "R005",
+    "routeName": "Circular Route",
+    "stops": [
+      "Central Station",
+      "City Mall",
+      "Hospital",
+      "University",
+      "Tech Park",
+      "Airport",
+      "Beach Road",
+      "Market Square",
+      "Central Station"
+    ],
+    "buses": [],
+    "distance": "45 km",
+    "estimatedTime": "90 min",
+    "operatingHours": "05:00 - 23:00",
+    "frequency": "Every 30 minutes",
+    "createdAt": "2026-01-15T09:00:00Z"
+  }
+]

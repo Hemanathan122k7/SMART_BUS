@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SmartTransit</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <!-- Enterprise CSS -->
+    <link rel="stylesheet" href="../styles/enterprise.css">
+    <link rel="stylesheet" href="../styles/features.css">
+</head>
+<body>
+    <!-- ── NAVBAR ── -->
+    <header class="ent-navbar">
+        <div class="nav-brand">
+            <i class="fas fa-bus-simple"></i>
+            <span data-i18n="nav.brand">SmartTransit</span>
+            <span class="role-badge admin" data-i18n="role.admin">Admin</span>
+        </div>
+        <div class="nav-right">
+            <div class="nav-system-health" id="navHealth">
+                <span class="health-dot" id="healthDot"></span>
+                <span id="healthLabel" data-i18n="nav.system_online">System Online</span>
+            </div>
+            <div class="nav-time" id="navClock"></div>
+            <div class="nav-user-info">
+                <span class="user-name" id="adminName">Admin</span>
+                <span class="user-meta" id="districtName">District</span>
+            </div>
+            <button class="btn-logout" onclick="logout()"><i class="fas fa-right-from-bracket"></i> <span data-i18n="nav.logout">Logout</span></button>
+        </div>
+    </header>
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="ent-sidebar">
+        <div class="sidebar-logo-strip">
+            <div class="strip-label" data-i18n="sidebar.navigation">Navigation</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active" data-section="live-monitoring">
+                <i class="fas fa-chart-line"></i> <span data-i18n="admin.live_monitoring">Live Monitoring</span>
+            </li>
+            <li data-section="bus-management">
+                <i class="fas fa-bus"></i> <span data-i18n="admin.bus_management">Bus Management</span>
+            </li>
+            <li data-section="sector-management">
+                <i class="fas fa-users-gear"></i> <span data-i18n="admin.sector_management">Sector Management</span>
+            </li>
+            <li data-section="route-management">
+                <i class="fas fa-route"></i> <span data-i18n="admin.route_management">Route Management</span>
+            </li>
+            <li data-section="map-view">
+                <i class="fas fa-map-location-dot"></i> <span data-i18n="admin.live_map">Live Map</span>
+            </li>
+            <li data-section="analytics">
+                <i class="fas fa-chart-pie"></i> <span data-i18n="admin.analytics">Analytics</span>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="last-updated"><span data-i18n="sidebar.last_sync">Last sync:</span> <span id="lastSyncTime">—</span></div>
+        </div>
+    </aside>
+
+    <!-- ── MAIN LAYOUT ── -->
+    <div class="ent-layout">
+
+        <!-- ── LIVE MONITORING ── -->
+        <section id="live-monitoring" class="content-section active">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-chart-line" style="color:var(--clr-accent)"></i> <span data-i18n="admin.fleet_title">Live Fleet Monitoring</span></div><div class="section-subtitle" data-i18n="admin.fleet_subtitle">Real-time status for all buses across the district</div></div>
+                <button class="btn btn-primary btn-sm" onclick="refreshLiveMonitoring()"><i class="fas fa-rotate"></i> <span data-i18n="admin.refresh">Refresh</span></button>
+            </div>
+
+            <!-- System Health Strip -->
+            <div class="health-strip" id="healthStrip">
+                <div class="health-item"><span class="health-dot ok"></span><span class="hi-label">Devices Online:</span><span class="hi-value ok" id="hs-online">—</span></div>
+                <div class="health-item"><span class="health-dot warn"></span><span class="hi-label">Offline:</span><span class="hi-value warn" id="hs-offline">—</span></div>
+                <div class="health-item"><i class="fas fa-users" style="color:var(--txt-muted)"></i><span class="hi-label">Total Passengers:</span><span class="hi-value" id="hs-pax">—</span></div>
+                <div class="health-item"><i class="fas fa-gauge-high" style="color:var(--txt-muted)"></i><span class="hi-label">Avg Occupancy:</span><span class="hi-value" id="hs-occ">—</span></div>
+                <div class="health-item" style="margin-left:auto"><i class="fas fa-clock" style="color:var(--txt-muted)"></i><span class="hi-label">Last Update:</span><span class="hi-value" id="hs-time">—</span></div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-icon-wrap blue"><i class="fas fa-bus"></i></div><div class="stat-body"><div class="stat-label" data-i18n="admin.stat_total_buses">Total Buses</div><div class="stat-value" id="totalBuses">0</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap green"><i class="fas fa-circle-check"></i></div><div class="stat-body"><div class="stat-label" data-i18n="admin.stat_active_buses">Active Buses</div><div class="stat-value" id="activeBuses">0</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap teal"><i class="fas fa-users"></i></div><div class="stat-body"><div class="stat-label" data-i18n="admin.stat_total_pax">Total Passengers</div><div class="stat-value" id="totalPassengers">0</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap orange"><i class="fas fa-gauge"></i></div><div class="stat-body"><div class="stat-label" data-i18n="admin.stat_avg_occ">Avg Occupancy</div><div class="stat-value" id="avgCapacity">0%</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap red"><i class="fas fa-ban"></i></div><div class="stat-body"><div class="stat-label" data-i18n="admin.stat_buses_full">Buses Full</div><div class="stat-value" id="busesFull">0</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap purple"><i class="fas fa-triangle-exclamation"></i></div><div class="stat-body"><div class="stat-label" data-i18n="admin.stat_door_alerts">Door Alerts</div><div class="stat-value" id="doorAlerts">0</div></div></div>
+            </div>
+
+            <!-- Live Table -->
+            <div class="ent-card">
+                <div class="ent-card-header">
+                    <div class="ent-card-title"><i class="fas fa-table-list"></i> Live Bus Status</div>
+                    <span class="status-pill pill-ok"><span class="live-dot ok"></span> Live</span>
+                </div>
+                <div class="ent-card-body" style="padding:0">
+                    <div class="ent-table-wrap">
+                        <table class="ent-table" id="liveMonitoringTable">
+                            <thead><tr>
+                                <th>Bus ID</th><th>Route</th><th>Current Stop</th><th>Occupancy</th>
+                                <th>Passengers</th><th>Seats Avail</th><th>Standing Avail</th>
+                                <th>Status</th><th>Device</th><th>Last Update</th>
+                            </tr></thead>
+                            <tbody id="liveMonitoringBody">
+                                <tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--txt-muted)">Loading live data…</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── BUS MANAGEMENT ── -->
+        <section id="bus-management" class="content-section">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-bus" style="color:var(--clr-accent)"></i> Bus Management</div><div class="section-subtitle">Create and manage bus configurations</div></div>
+            </div>
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-plus-circle"></i> Add New Bus</div></div>
+                <div class="ent-card-body">
+                    <form id="addBusForm" class="ent-form">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Bus ID</label><input type="text" id="busId" placeholder="e.g. BUS001" required></div>
+                            <div class="form-group"><label>Bus Number / Reg.</label><input type="text" id="busNumber" placeholder="e.g. KA-01-AB-1234" required></div>
+                            <div class="form-group"><label>Seating Capacity</label><input type="number" id="seatingCapacity" placeholder="40" min="1" required></div>
+                            <div class="form-group"><label>Standing Capacity</label><input type="number" id="standingCapacity" placeholder="20" min="0" required></div>
+                            <div class="form-group"><label>Total Capacity</label><input type="number" id="totalCapacity" readonly></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Bus</button>
+                    </form>
+                </div>
+            </div>
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-list"></i> Registered Buses</div></div>
+                <div class="ent-card-body" style="padding:0">
+                    <div class="ent-table-wrap">
+                        <table class="ent-table" id="busTable">
+                            <thead><tr><th>Bus ID</th><th>Bus Number</th><th>Seating</th><th>Standing</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody id="busTableBody"><tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--txt-muted)">No buses yet</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── SECTOR MANAGEMENT ── -->
+        <section id="sector-management" class="content-section">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-users-gear" style="color:var(--clr-accent)"></i> Sector Management</div><div class="section-subtitle">Manage sector incharges and their zones</div></div>
+            </div>
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-user-plus"></i> Add Sector Incharge</div></div>
+                <div class="ent-card-body">
+                    <form id="addSectorForm" class="ent-form">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Sector ID</label><input type="text" id="sectorId" placeholder="e.g. SECTOR001" required></div>
+                            <div class="form-group"><label>Incharge Name</label><input type="text" id="sectorName" placeholder="Full name" required></div>
+                            <div class="form-group"><label>Phone Number</label><input type="tel" id="sectorPhone" placeholder="10-digit" required></div>
+                            <div class="form-group"><label>Zone / Area</label><input type="text" id="sectorZone" placeholder="e.g. Zone A" required></div>
+                            <div class="form-group"><label>Password</label><input type="password" id="sectorPassword" placeholder="Set password" required></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Sector Incharge</button>
+                    </form>
+                </div>
+            </div>
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-list"></i> Registered Sector Incharges</div></div>
+                <div class="ent-card-body" style="padding:0">
+                    <div class="ent-table-wrap">
+                        <table class="ent-table" id="sectorTable">
+                            <thead><tr><th>Sector ID</th><th>Name</th><th>Phone</th><th>Zone</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody id="sectorTableBody"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--txt-muted)">No sector incharges yet</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── ROUTE MANAGEMENT ── -->
+        <section id="route-management" class="content-section">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-route" style="color:var(--clr-accent)"></i> Route Management</div><div class="section-subtitle">Define routes with ordered bus stops</div></div>
+            </div>
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-plus-circle"></i> Create New Route</div></div>
+                <div class="ent-card-body">
+                    <form id="addRouteForm" class="ent-form">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Route ID</label><input type="text" id="routeId" placeholder="e.g. R001" required></div>
+                            <div class="form-group"><label>Route Name</label><input type="text" id="routeName" placeholder="e.g. City Centre – Airport" required></div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:1rem">
+                            <label style="display:block;margin-bottom:.5rem;font-size:.82rem;font-weight:600;color:var(--txt-secondary);text-transform:uppercase;letter-spacing:.04em">Bus Stops (in order)</label>
+                            <div id="stopsContainer">
+                                <div class="stop-input-group">
+                                    <input type="text" class="stop-input" placeholder="Stop 1">
+                                    <button type="button" class="btn btn-outline btn-sm" onclick="addStopInput()"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:1rem">
+                            <label style="display:block;margin-bottom:.5rem;font-size:.82rem;font-weight:600;color:var(--txt-secondary);text-transform:uppercase;letter-spacing:.04em">Assign Buses</label>
+                            <select id="assignBusToRoute" multiple style="width:100%;padding:.65rem .9rem;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:.9rem;min-height:100px"></select>
+                            <small style="color:var(--txt-muted);font-size:.78rem">Hold Ctrl/Cmd to select multiple</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Create Route</button>
+                    </form>
+                </div>
+            </div>
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-map"></i> Configured Routes</div></div>
+                <div class="ent-card-body"><div id="routesList"><p style="color:var(--txt-muted);text-align:center">No routes yet</p></div></div>
+            </div>
+        </section>
+
+        <!-- ── LIVE MAP ── -->
+        <section id="map-view" class="content-section">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-map-location-dot" style="color:var(--clr-accent)"></i> Live GPS Map</div><div class="section-subtitle">Real-time bus locations across the district</div></div>
+                <button class="btn btn-outline btn-sm" onclick="recenterMap()"><i class="fas fa-crosshairs"></i> Re-center</button>
+            </div>
+            <div class="ent-card">
+                <div class="ent-card-body" style="padding:.75rem">
+                    <div class="map-container" id="liveMap">
+                        <div class="map-overlay">
+                            <div style="font-weight:700;margin-bottom:.5rem;font-size:.9rem">Legend</div>
+                            <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--clr-ok)"></div>Available</div>
+                            <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--clr-warn)"></div>Limited</div>
+                            <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--clr-danger)"></div>Full</div>
+                            <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--clr-info)"></div>Bus Stop</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── ANALYTICS ── -->
+        <section id="analytics" class="content-section">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-chart-pie" style="color:var(--clr-accent)"></i> Analytics</div><div class="section-subtitle">Occupancy trends, route performance, peak hours</div></div>
+                <button class="btn btn-outline btn-sm" onclick="refreshCharts()"><i class="fas fa-rotate"></i> Refresh</button>
+            </div>
+            <div class="chart-grid">
+                <div class="ent-card">
+                    <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-chart-line"></i> Occupancy Trend (Last 12 hrs)</div></div>
+                    <div class="ent-card-body"><div class="chart-wrap"><canvas id="occTrendChart"></canvas></div></div>
+                </div>
+                <div class="ent-card">
+                    <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-chart-bar"></i> Passenger Volume</div></div>
+                    <div class="ent-card-body"><div class="chart-wrap"><canvas id="passengerChart"></canvas></div></div>
+                </div>
+            </div>
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-trophy"></i> Route Performance</div></div>
+                <div class="ent-card-body" style="padding:0">
+                    <div class="ent-table-wrap">
+                        <table class="ent-table" id="routePerfTable">
+                            <thead><tr><th>Route ID</th><th>Name</th><th>Avg Occupancy</th><th>Daily Trips</th><th>On-Time %</th><th>Trend</th></tr></thead>
+                            <tbody id="routePerfBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-fire"></i> Peak Hour Heatmap</div></div>
+                <div class="ent-card-body"><div class="chart-wrap" style="height:200px"><canvas id="heatmapChart"></canvas></div></div>
+            </div>
+        </section>
+    </div><!-- end ent-layout -->
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="../scripts/auth.js"></script>
+    <script src="../scripts/api.js"></script>
+    <script src="../scripts/mock-ws.js"></script>
+    <script src="../scripts/notifications.js"></script>
+    <script src="../scripts/i18n.js"></script>
+    <script src="../scripts/features.js"></script>
+    <script src="../scripts/admin.js"></script>
+</body>
+</html>

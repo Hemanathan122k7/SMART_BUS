@@ -1,0 +1,74 @@
+[
+  {
+    "busId": "BUS001",
+    "busNumber": "KA-01-AB-1234",
+    "seatingCapacity": 40,
+    "standingCapacity": 20,
+    "totalCapacity": 60,
+    "status": "active",
+    "currentPassengers": 35,
+    "route": "Central Station - Airport",
+    "currentStop": "City Mall",
+    "createdAt": "2026-01-15T08:00:00Z"
+  },
+  {
+    "busId": "BUS002",
+    "busNumber": "KA-01-CD-5678",
+    "seatingCapacity": 45,
+    "standingCapacity": 25,
+    "totalCapacity": 70,
+    "status": "active",
+    "currentPassengers": 52,
+    "route": "University - Beach Road",
+    "currentStop": "Hospital",
+    "createdAt": "2026-01-15T08:30:00Z"
+  },
+  {
+    "busId": "BUS003",
+    "busNumber": "KA-01-EF-9012",
+    "seatingCapacity": 38,
+    "standingCapacity": 18,
+    "totalCapacity": 56,
+    "status": "active",
+    "currentPassengers": 28,
+    "route": "Tech Park - Market Square",
+    "currentStop": "Tech Park",
+    "createdAt": "2026-01-15T09:00:00Z"
+  },
+  {
+    "busId": "BUS004",
+    "busNumber": "KA-01-GH-3456",
+    "seatingCapacity": 42,
+    "standingCapacity": 22,
+    "totalCapacity": 64,
+    "status": "active",
+    "currentPassengers": 64,
+    "route": "Airport - Central Station",
+    "currentStop": "Airport",
+    "createdAt": "2026-01-15T09:30:00Z"
+  },
+  {
+    "busId": "BUS005",
+    "busNumber": "KA-01-IJ-7890",
+    "seatingCapacity": 40,
+    "standingCapacity": 20,
+    "totalCapacity": 60,
+    "status": "inactive",
+    "currentPassengers": 0,
+    "route": null,
+    "currentStop": "Depot",
+    "createdAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "busId": "BUS006",
+    "busNumber": "KA-01-KL-2345",
+    "seatingCapacity": 50,
+    "standingCapacity": 30,
+    "totalCapacity": 80,
+    "status": "active",
+    "currentPassengers": 45,
+    "route": "Mall - Hospital - University",
+    "currentStop": "Hospital",
+    "createdAt": "2026-01-20T07:00:00Z"
+  }
+]

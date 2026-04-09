@@ -1,0 +1,123 @@
+[
+  {
+    "ticketId": "TKT1706172000001",
+    "busId": "BUS001",
+    "operatorId": "OP001",
+    "boardingStop": "Central Station",
+    "destinationStop": "City Mall",
+    "passengerCount": 2,
+    "ticketType": "regular",
+    "fare": 30.00,
+    "status": "active",
+    "timestamp": "2026-02-04T08:15:00Z"
+  },
+  {
+    "ticketId": "TKT1706172000002",
+    "busId": "BUS001",
+    "operatorId": "OP001",
+    "boardingStop": "City Mall",
+    "destinationStop": "Airport Terminal 1",
+    "passengerCount": 1,
+    "ticketType": "student",
+    "fare": 25.00,
+    "status": "active",
+    "timestamp": "2026-02-04T08:30:00Z"
+  },
+  {
+    "ticketId": "TKT1706172000003",
+    "busId": "BUS002",
+    "operatorId": "OP002",
+    "boardingStop": "University Main Gate",
+    "destinationStop": "Hospital",
+    "passengerCount": 3,
+    "ticketType": "regular",
+    "fare": 45.00,
+    "status": "active",
+    "timestamp": "2026-02-04T08:45:00Z"
+  },
+  {
+    "ticketId": "TKT1706172000004",
+    "busId": "BUS002",
+    "operatorId": "OP002",
+    "boardingStop": "Hospital",
+    "destinationStop": "Beach Road End",
+    "passengerCount": 1,
+    "ticketType": "senior",
+    "fare": 28.00,
+    "status": "active",
+    "timestamp": "2026-02-04T09:00:00Z"
+  },
+  {
+    "ticketId": "TKT1706172000005",
+    "busId": "BUS003",
+    "operatorId": "OP001",
+    "boardingStop": "Tech Park Main",
+    "destinationStop": "Market Square Central",
+    "passengerCount": 4,
+    "ticketType": "regular",
+    "fare": 60.00,
+    "status": "active",
+    "timestamp": "2026-02-04T09:15:00Z"
+  },
+  {
+    "ticketId": "TKT1706172000006",
+    "busId": "BUS001",
+    "operatorId": "OP001",
+    "boardingStop": "Tech Park",
+    "destinationStop": "Airport Terminal 2",
+    "passengerCount": 2,
+    "ticketType": "regular",
+    "fare": 40.00,
+    "status": "completed",
+    "timestamp": "2026-02-04T09:30:00Z",
+    "completedAt": "2026-02-04T10:15:00Z"
+  },
+  {
+    "ticketId": "TKT1706172000007",
+    "busId": "BUS004",
+    "operatorId": "OP002",
+    "boardingStop": "Airport Terminal 1",
+    "destinationStop": "Central Station",
+    "passengerCount": 5,
+    "ticketType": "regular",
+    "fare": 75.00,
+    "status": "active",
+    "timestamp": "2026-02-04T09:45:00Z"
+  },
+  {
+    "ticketId": "TKT1706172000008",
+    "busId": "BUS006",
+    "operatorId": "OP001",
+    "boardingStop": "City Mall",
+    "destinationStop": "University Library",
+    "passengerCount": 1,
+    "ticketType": "student",
+    "fare": 20.00,
+    "status": "active",
+    "timestamp": "2026-02-04T10:00:00Z"
+  },
+  {
+    "ticketId": "TKT1706172000009",
+    "busId": "BUS003",
+    "operatorId": "OP001",
+    "boardingStop": "City Center",
+    "destinationStop": "Market Square North",
+    "passengerCount": 2,
+    "ticketType": "regular",
+    "fare": 30.00,
+    "status": "active",
+    "timestamp": "2026-02-04T10:15:00Z"
+  },
+  {
+    "ticketId": "TKT1706172000010",
+    "busId": "BUS002",
+    "operatorId": "OP002",
+    "boardingStop": "Market Square",
+    "destinationStop": "Beach Road Junction",
+    "passengerCount": 1,
+    "ticketType": "senior",
+    "fare": 21.00,
+    "status": "active",
+    "timestamp": "2026-02-04T10:30:00Z"
+  }
+]

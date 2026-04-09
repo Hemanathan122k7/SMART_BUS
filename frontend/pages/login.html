@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartTransit | Smart Bus Transport System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/features.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --admin-color: #e74c3c;
+            --sector-color: #2ecc71;
+            --operator-color: #f39c12;
+            --accent-color: #1abc9c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 600; margin-bottom: 1rem; }
+
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* ── HEADER ── */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo { display: flex; align-items: center; font-size: 1.8rem; font-weight: 700; font-family: 'Poppins', sans-serif; }
+        .logo i { color: var(--accent-color); margin-right: 10px; }
+        .logo span { color: var(--accent-color); }
+
+        /* ── ROLE SELECTION ── */
+        .role-selection {
+            padding: 160px 0 100px;
+            background:
+                linear-gradient(rgba(44,62,80,0.95), rgba(44,62,80,0.90)),
+                url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=2069&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        .role-selection h1 { font-size: 2.8rem; margin-bottom: 1rem; color: white; }
+        .role-selection > .container > p { font-size: 1.1rem; max-width: 750px; margin: 0 auto 3rem; opacity: 0.9; }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2.5rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .role-card {
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 2.5rem 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            background-color: rgba(255,255,255,0.18);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .role-icon { font-size: 3.5rem; margin-bottom: 1.2rem; }
+        .role-card.admin    .role-icon { color: var(--admin-color); }
+        .role-card.sector   .role-icon { color: var(--sector-color); }
+        .role-card.operator .role-icon { color: var(--operator-color); }
+
+        .role-card h3 { font-size: 1.6rem; margin-bottom: 0.8rem; color: white; }
+        .role-card > p { font-size: 0.95rem; opacity: 0.88; margin-bottom: 1.5rem; color: rgba(255,255,255,0.9); }
+
+        .role-btn {
+            display: inline-block;
+            background-color: transparent;
+            color: white;
+            padding: 0.75rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 2px solid white;
+            transition: var(--transition);
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .role-card.admin    .role-btn:hover { background-color: var(--admin-color);    border-color: var(--admin-color); }
+        .role-card.sector   .role-btn:hover { background-color: var(--sector-color);   border-color: var(--sector-color); }
+        .role-card.operator .role-btn:hover { background-color: var(--operator-color); border-color: var(--operator-color); }
+
+        /* ── LOGIN PAGES ── */
+        .login-container {
+            display: none;
+            min-height: 100vh;
+            padding: 120px 0 80px;
+            background-color: #f5f7fa;
+        }
+        .login-container.active { display: block; }
+
+        .login-box {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+
+        .login-header { padding: 2.5rem 2.5rem 1.5rem; text-align: center; color: white; }
+        .login-header.admin    { background-color: var(--admin-color); }
+        .login-header.sector   { background-color: var(--sector-color); }
+        .login-header.operator { background-color: var(--operator-color); }
+
+        .login-header i  { font-size: 3.2rem; margin-bottom: 0.8rem; display: block; }
+        .login-header h2 { font-size: 1.9rem; margin-bottom: 0.4rem; color: white; }
+        .login-header p  { margin-bottom: 0; opacity: 0.9; font-size: 0.95rem; }
+
+        .login-body { padding: 2.5rem; }
+
+        .login-form .form-group { margin-bottom: 1.4rem; }
+        .login-form label { display: block; margin-bottom: 0.45rem; font-weight: 500; color: var(--dark-color); }
+        .login-form input {
+            width: 100%; padding: 0.85rem 1rem;
+            border: 1px solid #ddd; border-radius: 5px;
+            font-family: 'Roboto', sans-serif; font-size: 1rem;
+            transition: var(--transition);
+        }
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.2);
+        }
+
+        .login-btn {
+            width: 100%; padding: 1rem; border: none; border-radius: 5px;
+            font-weight: 600; font-size: 1.05rem; cursor: pointer;
+            transition: var(--transition); color: white; margin-top: 0.4rem;
+            font-family: 'Poppins', sans-serif;
+        }
+        .login-btn.admin    { background-color: var(--admin-color); }
+        .login-btn.sector   { background-color: var(--sector-color); }
+        .login-btn.operator { background-color: var(--operator-color); }
+        .login-btn:hover    { opacity: 0.88; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+        .back-to-roles {
+            display: block; text-align: center; margin-top: 1.4rem;
+            color: var(--secondary-color); text-decoration: none; font-weight: 500;
+        }
+        .back-to-roles:hover { text-decoration: underline; }
+
+        /* ── MESSAGE ── */
+        .msg { display: none; padding: 0.8rem 1rem; border-radius: 5px; margin-bottom: 1rem; font-weight: 500; text-align: center; font-size: 0.92rem; }
+        .msg.success { display: block; background: linear-gradient(135deg,#2ecc71,#27ae60); color: white; }
+        .msg.error   { display: block; background: linear-gradient(135deg,#e74c3c,#c0392b); color: white; }
+        .msg.loading { display: block; background: linear-gradient(135deg,#3498db,#2980b9); color: white; }
+
+        /* ── FOOTER LINKS (unchanged) ── */
+        .page-footer { text-align: center; padding: 1rem; color: #888; font-size: 0.85rem; position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.9); }
+        .page-footer a { color: var(--secondary-color); text-decoration: none; margin: 0 6px; }
+        .page-footer a:hover { text-decoration: underline; }
+
+        /* ── ANIMATIONS ── */
+        .fade-in  { animation: fadeIn 0.9s ease-in; }
+        .slide-up { animation: slideUp 0.8s ease-out both; }
+        @keyframes fadeIn  { from { opacity: 0; }                            to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(25px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .role-selection { padding: 130px 0 80px; }
+            .role-selection h1 { font-size: 2rem; }
+            .roles-grid { grid-template-columns: 1fr; max-width: 380px; }
+            .login-box { margin: 0 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── HEADER ── -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-bus"></i>
+                    Smart<span>Transit</span>
+                </div>
+                <div class="lang-switcher" id="loginLangSwitcher" style="margin-left:auto"></div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ── ROLE SELECTION PAGE ── -->
+    <section class="role-selection" id="roleSelectionPage">
+        <div class="container">
+            <h1 class="fade-in" data-i18n="login.title">Smart Public Transport System</h1>
+            <p class="fade-in" data-i18n="login.subtitle">Intelligent monitoring, capacity-aware ticketing, and IoT safety integration for modern public transportation. Select your role to continue.</p>
+
+            <div class="roles-grid">
+                <!-- Admin -->
+                <div class="role-card admin slide-up">
+                    <div class="role-icon"><i class="fas fa-user-shield"></i></div>
+                    <h3 data-i18n="login.admin_title">District Authority</h3>
+                    <p data-i18n="login.admin_desc">Full system control, sector creation, bus management, route oversight, and district-wide analytics.</p>
+                    <button class="role-btn" onclick="showLogin('admin')" data-i18n="login.admin_btn">Login as Admin</button>
+                </div>
+
+                <!-- Sector -->
+                <div class="role-card sector slide-up" style="animation-delay:0.2s">
+                    <div class="role-icon"><i class="fas fa-chart-pie"></i></div>
+                    <h3 data-i18n="login.sector_title">Sector Incharge</h3>
+                    <p data-i18n="login.sector_desc">Regional oversight, operator management, bus monitoring, route management, and reporting.</p>
+                    <button class="role-btn" onclick="showLogin('sector')" data-i18n="login.sector_btn">Login as Sector Incharge</button>
+                </div>
+
+                <!-- Operator -->
+                <div class="role-card operator slide-up" style="animation-delay:0.4s">
+                    <div class="role-icon"><i class="fas fa-user-cog"></i></div>
+                    <h3 data-i18n="login.operator_title">Bus Operator</h3>
+                    <p data-i18n="login.operator_desc">Daily operations, ticket issuing, capacity status, drop-off tracking, and safety alerts.</p>
+                    <button class="role-btn" onclick="showLogin('operator')" data-i18n="login.operator_btn">Login as Operator</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── ADMIN LOGIN ── -->
+    <div class="login-container" id="adminLoginPage">
+        <div class="container">
+            <div class="login-box">
+                <div class="login-header admin">
+                    <i class="fas fa-user-shield"></i>
+                    <h2 data-i18n="login.admin_login_h">Administrator Login</h2>
+                    <p data-i18n="login.admin_login_sub">District Authority — Full system access</p>
+                </div>
+                <div class="login-body">
+                    <div id="adminMsg" class="msg"></div>
+                    <form class="login-form" id="adminLoginForm">
+                        <div class="form-group">
+                            <label for="adminUsername" data-i18n="login.admin_id">Admin ID</label>
+                            <input type="text" id="adminUsername" data-i18n-placeholder="login.enter_admin_id" placeholder="Enter admin ID" required autocomplete="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminPassword" data-i18n="login.password">Password</label>
+                            <input type="password" id="adminPassword" data-i18n-placeholder="login.enter_password" placeholder="Enter password" required autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="login-btn admin">
+                            <i class="fas fa-sign-in-alt"></i>&nbsp; Login as Administrator
+                        </button>
+                    </form>
+                    <a href="#" class="back-to-roles" onclick="showRoleSelection(); return false;" data-i18n="login.back_roles">&#8592; Back to Role Selection</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── SECTOR LOGIN ── -->
+    <div class="login-container" id="sectorLoginPage">
+        <div class="container">
+            <div class="login-box">
+                <div class="login-header sector">
+                    <i class="fas fa-chart-pie"></i>
+                    <h2 data-i18n="login.sector_login_h">Sector Incharge Login</h2>
+                    <p data-i18n="login.sector_login_sub">Regional oversight and management</p>
+                </div>
+                <div class="login-body">
+                    <div id="sectorMsg" class="msg"></div>
+                    <form class="login-form" id="sectorLoginForm">
+                        <div class="form-group">
+                            <label for="sectorUsername" data-i18n="login.sector_id">Sector ID</label>
+                            <input type="text" id="sectorUsername" data-i18n-placeholder="login.enter_sector_id" placeholder="Enter sector ID" required autocomplete="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="sectorPassword" data-i18n="login.password">Password</label>
+                            <input type="password" id="sectorPassword" data-i18n-placeholder="login.enter_password" placeholder="Enter password" required autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="login-btn sector">
+                            <i class="fas fa-sign-in-alt"></i>&nbsp; Login as Sector Incharge
+                        </button>
+                    </form>
+                    <a href="#" class="back-to-roles" onclick="showRoleSelection(); return false;" data-i18n="login.back_roles">&#8592; Back to Role Selection</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── OPERATOR LOGIN ── -->
+    <div class="login-container" id="operatorLoginPage">
+        <div class="container">
+            <div class="login-box">
+                <div class="login-header operator">
+                    <i class="fas fa-user-cog"></i>
+                    <h2 data-i18n="login.operator_login_h">Bus Operator Login</h2>
+                    <p data-i18n="login.operator_login_sub">Daily operations and vehicle management</p>
+                </div>
+                <div class="login-body">
+                    <div id="operatorMsg" class="msg"></div>
+                    <form class="login-form" id="operatorLoginForm">
+                        <div class="form-group">
+                            <label for="operatorUsername" data-i18n="login.operator_id">Operator ID</label>
+                            <input type="text" id="operatorUsername" data-i18n-placeholder="login.enter_operator_id" placeholder="Enter operator ID" required autocomplete="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="operatorPassword" data-i18n="login.password">Password</label>
+                            <input type="password" id="operatorPassword" data-i18n-placeholder="login.enter_password" placeholder="Enter password" required autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="login-btn operator">
+                            <i class="fas fa-sign-in-alt"></i>&nbsp; Login as Operator
+                        </button>
+                    </form>
+                    <a href="#" class="back-to-roles" onclick="showRoleSelection(); return false;" data-i18n="login.back_roles">&#8592; Back to Role Selection</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Persistent footer links (keep busstop.html link) -->
+    <footer class="page-footer" id="pageFooter">
+        <a href="../public/index.html" data-i18n="login.back_home">&#8592; Back to Home</a> |
+        <a href="busstop.html" data-i18n="login.busstop_display">Bus Stop Display</a>
+    </footer>
+
+    <!-- Auth script must load before inline script -->
+    <script src="../scripts/auth.js"></script>
+    <script src="../scripts/i18n.js"></script>
+    <script>
+        // Inject language switcher into login page nav
+        (function() {
+            var nav = document.querySelector('nav');
+            if (nav && !nav.querySelector('.lang-switcher')) {
+                var switcher = document.getElementById('loginLangSwitcher');
+                if (switcher) {
+                    // I18n will auto-inject into .nav-right, but login page uses nav directly
+                    // Create a nav-right-like wrapper
+                    I18n.injectSwitcher();
+                }
+            }
+        })();
+    </script>
+    <script>
+        const roleSelectionPage = document.getElementById('roleSelectionPage');
+
+        // ── Navigation ──────────────────────────────────────────────────
+        function showLogin(role) {
+            roleSelectionPage.style.display = 'none';
+            document.getElementById('pageFooter').style.display = 'none';
+            document.querySelectorAll('.login-container').forEach(el => el.classList.remove('active'));
+            document.getElementById(role + 'LoginPage').classList.add('active');
+        }
+
+        function showRoleSelection() {
+            document.querySelectorAll('.login-container').forEach(el => el.classList.remove('active'));
+            roleSelectionPage.style.display = 'block';
+            document.getElementById('pageFooter').style.display = 'block';
+        }
+
+        // ── Message helpers ─────────────────────────────────────────────
+        function setMsg(id, text, type) {
+            const el = document.getElementById(id);
+            el.className = 'msg ' + type;
+            el.textContent = text;
+        }
+
+        // These override alert-based feedback in auth.js so errors appear inline
+        window.showError = function(msg) {
+            const active = document.querySelector('.login-container.active');
+            if (!active) return;
+            setMsg(active.querySelector('.msg').id, msg, 'error');
+        };
+
+        window.showSuccess = function(msg) {
+            const active = document.querySelector('.login-container.active');
+            if (!active) return;
+            setMsg(active.querySelector('.msg').id, msg, 'success');
+        };
+
+        window.hideError = function() {
+            const active = document.querySelector('.login-container.active');
+            if (!active) return;
+            const el = active.querySelector('.msg');
+            el.className = 'msg';
+            el.textContent = '';
+        };
+
+        // ── Form submissions → handleLogin() from auth.js ───────────────
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            setMsg('adminMsg', 'Authenticating...', 'loading');
+            handleLogin('admin',
+                document.getElementById('adminUsername').value.trim(),
+                document.getElementById('adminPassword').value
+            );
+        });
+
+        document.getElementById('sectorLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            setMsg('sectorMsg', 'Authenticating...', 'loading');
+            handleLogin('sector',
+                document.getElementById('sectorUsername').value.trim(),
+                document.getElementById('sectorPassword').value
+            );
+        });
+
+        document.getElementById('operatorLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            setMsg('operatorMsg', 'Authenticating...', 'loading');
+            handleLogin('operator',
+                document.getElementById('operatorUsername').value.trim(),
+                document.getElementById('operatorPassword').value
+            );
+        });
+    </script>
+</body>
+</html>

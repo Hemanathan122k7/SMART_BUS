@@ -1,0 +1,68 @@
+[
+  {
+    "operatorId": "OP001",
+    "operatorName": "Rajesh Kumar",
+    "phone": "9876543210",
+    "assignedBus": "BUS001",
+    "status": "active",
+    "licenseNumber": "DL123456789",
+    "experience": "5 years",
+    "joinedDate": "2021-03-15",
+    "createdAt": "2026-01-10T08:00:00Z"
+  },
+  {
+    "operatorId": "OP002",
+    "operatorName": "Priya Sharma",
+    "phone": "9876543211",
+    "assignedBus": "BUS002",
+    "status": "active",
+    "licenseNumber": "DL987654321",
+    "experience": "3 years",
+    "joinedDate": "2022-06-20",
+    "createdAt": "2026-01-10T08:30:00Z"
+  },
+  {
+    "operatorId": "OP003",
+    "operatorName": "Amit Patel",
+    "phone": "9876543212",
+    "assignedBus": "BUS003",
+    "status": "active",
+    "licenseNumber": "DL456789123",
+    "experience": "7 years",
+    "joinedDate": "2019-01-10",
+    "createdAt": "2026-01-10T09:00:00Z"
+  },
+  {
+    "operatorId": "OP004",
+    "operatorName": "Sunita Reddy",
+    "phone": "9876543213",
+    "assignedBus": "BUS004",
+    "status": "active",
+    "licenseNumber": "DL789123456",
+    "experience": "4 years",
+    "joinedDate": "2021-11-05",
+    "createdAt": "2026-01-10T09:30:00Z"
+  },
+  {
+    "operatorId": "OP005",
+    "operatorName": "Vikram Singh",
+    "phone": "9876543214",
+    "assignedBus": "BUS006",
+    "status": "active",
+    "licenseNumber": "DL321654987",
+    "experience": "6 years",
+    "joinedDate": "2020-08-15",
+    "createdAt": "2026-01-20T08:00:00Z"
+  },
+  {
+    "operatorId": "OP006",
+    "operatorName": "Kavita Menon",
+    "phone": "9876543215",
+    "assignedBus": null,
+    "status": "inactive",
+    "licenseNumber": "DL654987321",
+    "experience": "2 years",
+    "joinedDate": "2023-02-01",
+    "createdAt": "2026-01-25T10:00:00Z"
+  }
+]

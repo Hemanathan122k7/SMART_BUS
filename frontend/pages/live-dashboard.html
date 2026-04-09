@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Bus Live Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <link rel="stylesheet" href="../styles/live-dashboard.css" />
+</head>
+<body>
+  <div class="bg-shape bg-shape-a"></div>
+  <div class="bg-shape bg-shape-b"></div>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>Smart Bus Monitoring</h1>
+        <p>ESP32 + Node.js live operations panel</p>
+      </div>
+      <div class="server-badge" id="serverBadge">Server: disconnected</div>
+    </header>
+
+    <section class="card login-card" id="loginCard">
+      <h2>Operator Login</h2>
+      <p class="hint">Default Operator ID: OP001 | Password: op1234</p>
+      <form id="loginForm" class="grid-2">
+        <label>
+          Operator ID
+          <input id="operatorId" value="OP001" required />
+        </label>
+        <label>
+          Password
+          <input id="password" type="password" value="op1234" required />
+        </label>
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+      <div id="loginMessage" class="msg"></div>
+    </section>
+
+    <section class="dashboard hidden" id="dashboard">
+      <div class="grid-panels">
+        <article class="card status-card">
+          <h3>Live Bus State</h3>
+          <div class="status-row">
+            <span>Bus ID</span>
+            <strong id="busIdText">-</strong>
+          </div>
+          <div class="status-row">
+            <span>Door Status</span>
+            <strong id="doorStatusText" class="pill">-</strong>
+          </div>
+          <div class="status-row">
+            <span>Safety Status</span>
+            <strong id="safetyStatusText" class="pill">-</strong>
+          </div>
+          <div class="status-row">
+            <span>Passenger Count</span>
+            <strong id="passengerCountText">0</strong>
+          </div>
+          <div class="status-row">
+            <span>Last Update</span>
+            <strong id="lastUpdateText">-</strong>
+          </div>
+        </article>
+
+        <article class="card map-card">
+          <h3>Bus Location</h3>
+          <div id="map"></div>
+          <p class="hint" id="coordsText">Latitude: -, Longitude: -</p>
+        </article>
+
+        <article class="card ticket-card">
+          <h3>Issue Ticket</h3>
+          <form id="ticketForm" class="ticket-form">
+            <label>
+              Source
+              <select id="source" required>
+                <option value="">Select source</option>
+                <option>Central Station</option>
+                <option>City Mall</option>
+                <option>Hospital</option>
+                <option>University</option>
+                <option>Tech Park</option>
+              </select>
+            </label>
+            <label>
+              Destination
+              <select id="destination" required>
+                <option value="">Select destination</option>
+                <option>Central Station</option>
+                <option>City Mall</option>
+                <option>Hospital</option>
+                <option>University</option>
+                <option>Tech Park</option>
+              </select>
+            </label>
+            <label>
+              Passengers
+              <input type="number" id="ticketPassengers" value="1" min="1" max="10" required />
+            </label>
+            <button type="submit" class="btn-primary">Generate Ticket</button>
+          </form>
+          <div id="ticketMessage" class="msg"></div>
+        </article>
+      </div>
+
+      <article class="card log-card">
+        <h3>Recent Tickets</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Pax</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="ticketTableBody">
+            <tr>
+              <td colspan="5">No tickets issued yet</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+  </main>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script src="../scripts/live-dashboard.js"></script>
+</body>
+</html>

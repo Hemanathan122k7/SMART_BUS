@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sector Dashboard | SmartTransit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="../styles/enterprise.css">
+    <link rel="stylesheet" href="../styles/features.css">
+</head>
+<body>
+    <!-- ── NAVBAR ── -->
+    <header class="ent-navbar">
+        <div class="nav-brand">
+            <i class="fas fa-bus-simple"></i>
+            <span data-i18n="nav.brand">SmartTransit</span>
+            <span class="role-badge sector" data-i18n="role.sector">Sector</span>
+        </div>
+        <div class="nav-right">
+            <div class="nav-system-health">
+                <span class="health-dot ok" id="healthDot"></span>
+                <span id="healthLabel" data-i18n="nav.all_systems_ok">All Systems OK</span>
+            </div>
+            <div class="nav-time" id="navClock"></div>
+            <div class="nav-user-info">
+                <span class="user-name" id="sectorName">Sector Incharge</span>
+                <span class="user-meta">Zone: <strong id="sectorZone">—</strong></span>
+            </div>
+            <button class="btn-logout" onclick="logout()"><i class="fas fa-right-from-bracket"></i> <span data-i18n="nav.logout">Logout</span></button>
+        </div>
+    </header>
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="ent-sidebar">
+        <div class="sidebar-logo-strip"><div class="strip-label" data-i18n="sidebar.menu">Menu</div></div>
+        <ul class="sidebar-menu">
+            <li class="active" data-section="dashboard">
+                <i class="fas fa-chart-pie"></i> <span data-i18n="sec.dashboard">Dashboard</span>
+            </li>
+            <li data-section="bus-monitoring">
+                <i class="fas fa-bus"></i> <span data-i18n="sec.bus_monitoring">Bus Monitoring</span>
+            </li>
+            <li data-section="operator-management">
+                <i class="fas fa-user-tie"></i> <span data-i18n="sec.operators">Operators</span>
+            </li>
+            <li data-section="route-view">
+                <i class="fas fa-route"></i> <span data-i18n="sec.routes">Routes</span>
+            </li>
+            <li data-section="reports">
+                <i class="fas fa-chart-bar"></i> <span data-i18n="sec.reports">Reports</span>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="last-updated"><span data-i18n="sidebar.updated">Updated:</span> <span id="lastSyncTime">—</span></div>
+        </div>
+    </aside>
+
+    <!-- ── LAYOUT ── -->
+    <div class="ent-layout">
+
+        <!-- ── DASHBOARD ── -->
+        <section id="dashboard" class="content-section active">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-chart-pie" style="color:var(--clr-accent)"></i> <span data-i18n="sec.overview_title">Sector Overview</span></div><div class="section-subtitle" data-i18n="sec.overview_subtitle">Zone-level statistics and fleet status</div></div>
+                <div><span class="status-pill pill-ok"><span class="live-dot ok"></span> Live</span></div>
+            </div>
+
+            <!-- System Health Strip -->
+            <div class="health-strip">
+                <div class="health-item"><span class="live-dot ok" id="sysOnlineDot"></span><span class="hi-label">Fleet:</span><span class="hi-value ok" id="sysFleetStatus">Loading…</span></div>
+                <div class="health-item"><i class="fas fa-clock" style="color:var(--txt-muted)"></i><span class="hi-label">Last Update:</span><span class="hi-value mono" id="sysLastUpdate">—</span></div>
+                <div class="health-item"><i class="fas fa-shield-halved" style="color:var(--clr-ok)"></i><span class="hi-label">Alerts:</span><span class="hi-value" id="sysAlerts">0 active</span></div>
+                <div class="health-item"><i class="fas fa-signal" style="color:var(--txt-muted)"></i><span class="hi-label">Network:</span><span class="hi-value ok">Strong</span></div>
+            </div>
+
+            <!-- Stat Cards -->
+            <div class="stats-grid" style="margin-top:1.25rem">
+                <div class="stat-card"><div class="stat-icon-wrap blue"><i class="fas fa-bus"></i></div><div class="stat-body"><div class="stat-label" data-i18n="sec.stat_total_buses">Total Buses</div><div class="stat-value" id="statTotalBuses">0</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap green"><i class="fas fa-circle-check"></i></div><div class="stat-body"><div class="stat-label" data-i18n="sec.stat_active_buses">Active Buses</div><div class="stat-value" id="statActiveBuses">0</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap teal"><i class="fas fa-users"></i></div><div class="stat-body"><div class="stat-label" data-i18n="sec.stat_total_pax">Total Passengers</div><div class="stat-value" id="statPassengers">0</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap orange"><i class="fas fa-user-tie"></i></div><div class="stat-body"><div class="stat-label" data-i18n="sec.stat_operators">Operators</div><div class="stat-value" id="statOperators">0</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap red"><i class="fas fa-triangle-exclamation"></i></div><div class="stat-body"><div class="stat-label" data-i18n="sec.stat_active_alerts">Active Alerts</div><div class="stat-value" id="statAlerts">0</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap purple"><i class="fas fa-route"></i></div><div class="stat-body"><div class="stat-label" data-i18n="sec.stat_routes">Routes</div><div class="stat-value" id="statRoutes">0</div></div></div>
+            </div>
+
+            <div class="ent-card" style="margin-top:1.25rem">
+                <div class="ent-card-header">
+                    <div class="ent-card-title"><i class="fas fa-map-location-dot"></i> Live GPS Map</div>
+                    <button type="button" class="btn btn-outline btn-sm" id="recenterSectorMapBtn"><i class="fas fa-crosshairs"></i> Re-center</button>
+                </div>
+                <div class="ent-card-body" style="padding:.75rem">
+                    <div class="map-container" id="sectorLiveMap">
+                        <div class="map-overlay">
+                            <div style="font-weight:700;margin-bottom:.5rem;font-size:.9rem">Legend</div>
+                            <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--clr-ok)"></div>Available</div>
+                            <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--clr-warn)"></div>Limited</div>
+                            <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--clr-danger)"></div>Full</div>
+                            <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--clr-info)"></div>Bus Stop</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick fleet table -->
+            <div class="ent-card" style="margin-top:1.25rem">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-bolt"></i> Fleet Quick View</div></div>
+                <div class="ent-card-body" style="padding:0">
+                    <div class="ent-table-wrap">
+                        <table class="ent-table">
+                            <thead><tr><th>Bus</th><th>Route</th><th>Passengers</th><th>Occupancy</th><th>Status</th></tr></thead>
+                            <tbody id="dashboardFleetBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── BUS MONITORING ── -->
+        <section id="bus-monitoring" class="content-section">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-bus" style="color:var(--clr-accent)"></i> Real-Time Bus Monitoring</div><div class="section-subtitle">Live status of all buses in your zone</div></div>
+                <div><span class="status-pill pill-ok"><span class="live-dot ok"></span> Live Feed</span></div>
+            </div>
+            <div class="ent-card">
+                <div class="ent-card-body" style="padding:0">
+                    <div class="ent-table-wrap">
+                        <table class="ent-table" id="monitoringTable">
+                            <thead><tr><th>Bus ID</th><th>Plate</th><th>Route</th><th>Occupancy</th><th>Passengers</th><th>Device</th><th>Status</th></tr></thead>
+                            <tbody id="monitoringTableBody"><tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--txt-muted)">Loading buses…</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── OPERATOR MANAGEMENT ── -->
+        <section id="operator-management" class="content-section">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-user-tie" style="color:var(--clr-accent)"></i> Operator Management</div><div class="section-subtitle">Create operators and assign them to buses</div></div>
+            </div>
+
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-user-plus"></i> Add New Operator</div></div>
+                <div class="ent-card-body">
+                    <div id="operatorFormAlert"></div>
+                    <form id="addOperatorForm" class="ent-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Operator ID</label>
+                                <input type="text" id="operatorId" placeholder="e.g., OP001" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="operatorName" placeholder="Enter full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="operatorPhone" placeholder="10-digit number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Assign to Bus</label>
+                                <select id="assignedBus" required>
+                                    <option value="">Select bus…</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" id="operatorPassword" placeholder="Set password" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i> Add Operator</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-list"></i> Registered Operators</div></div>
+                <div class="ent-card-body" style="padding:0">
+                    <div class="ent-table-wrap">
+                        <table class="ent-table" id="operatorTable">
+                            <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Assigned Bus</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody id="operatorTableBody"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--txt-muted)">No operators registered</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── ROUTE VIEW ── -->
+        <section id="route-view" class="content-section">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-route" style="color:var(--clr-accent)"></i> Routes Overview</div><div class="section-subtitle">All routes in your zone</div></div>
+            </div>
+            <div id="routesList" class="route-cards-grid"></div>
+        </section>
+
+        <!-- ── REPORTS ── -->
+        <section id="reports" class="content-section">
+            <div class="section-header">
+                <div><div class="section-title"><i class="fas fa-chart-bar" style="color:var(--clr-accent)"></i> Reports</div><div class="section-subtitle">Sector performance analytics</div></div>
+            </div>
+
+            <div class="ent-card">
+                <div class="ent-card-header"><div class="ent-card-title"><i class="fas fa-filter"></i> Report Generator</div></div>
+                <div class="ent-card-body">
+                    <form id="reportForm" class="ent-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Report Type</label>
+                                <select id="reportType">
+                                    <option value="daily">Daily Summary</option>
+                                    <option value="weekly">Weekly Summary</option>
+                                    <option value="operator">Operator Performance</option>
+                                    <option value="route">Route Performance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="reportDate">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-file-alt"></i> Generate Report</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="stats-grid" id="reportStats" style="margin-top:1.25rem"></div>
+
+            <div class="ent-card" id="reportOutput" style="display:none;margin-top:1.25rem">
+                <div class="ent-card-header"><div class="ent-card-title" id="reportTitle">Report</div></div>
+                <div class="ent-card-body" style="padding:0">
+                    <div class="ent-table-wrap">
+                        <table class="ent-table"><thead id="reportThead"></thead><tbody id="reportTbody"></tbody></table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../scripts/auth.js"></script>
+    <script src="../scripts/api.js"></script>
+    <script src="../scripts/mock-ws.js"></script>
+    <script src="../scripts/notifications.js"></script>
+    <script src="../scripts/i18n.js"></script>
+    <script src="../scripts/features.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../scripts/sector.js"></script>
+</body>
+</html>
